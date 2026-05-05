@@ -87,7 +87,7 @@ sboms:
   - artifacts: archive
 
 release:
-  draft: false
+  draft: true
   prerelease: auto
   header: |
     ## osc-policy {{ .Tag }}
