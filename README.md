@@ -130,12 +130,15 @@ inspiré de `checkov` / `tfsec`, exports SARIF / JUnit / JSON / Markdown.
 [mise](https://mise.jdx.dev/) télécharge le binaire pré-compilé depuis les
 GitHub Releases. Pas de Go requis côté utilisateur.
 
+> **Important** : utiliser le backend `github:` — le backend `ubi:` est déprécié
+> et ne résout pas correctement `@latest`.
+
 ```bash
 # Dernière release
 mise use --global github:outscale-srt20/osc-policy
 
 # Version épinglée (recommandé en CI)
-mise use --global github:outscale-srt20/osc-policy@v0.0.2
+mise use --global github:outscale-srt20/osc-policy@v0.0.5
 
 # Vérifier
 osc-policy --version
@@ -145,15 +148,6 @@ osc-policy --version
 > via [`.github/workflows/release.yml`](.github/workflows/release.yml) à chaque
 > push de tag `v*`. Binaires multi-arch (linux/darwin/windows × amd64/arm64),
 > SBOM et checksums inclus pour audit supply chain.
-
-### Via mise — backend `go` (si pas de release disponible)
-
-```bash
-# Pré-requis : Go installé (mise peut s'en charger)
-mise use --global go@latest
-
-mise use --global go:github.com/outscale-srt20/osc-policy@latest
-```
 
 ### Depuis les sources (Go ≥ 1.24)
 
