@@ -14,12 +14,10 @@ updates:
     commit-message:
       prefix: "chore(deps)"
       include: scope
-    # Cooldown proxy: ignore patch updates for 3 days, minor for 7 days
-    # to reduce supply-chain attack surface from compromised releases.
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3
     ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
-        # re-enable after 3 days via manual PR review
       # OPA 1.16+ requires Go 1.25 — hold until we upgrade the toolchain
       - dependency-name: "github.com/open-policy-agent/opa"
         versions: [">=1.16"]
@@ -48,7 +46,6 @@ updates:
       - github-actions
     commit-message:
       prefix: "chore(ci)"
-    # Cooldown proxy: ignore patch updates for actions — only take minor/major
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3

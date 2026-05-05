@@ -34,3 +34,12 @@ repos:
     hooks:
       - id: markdownlint
         args: [--disable, MD013]
+
+  - repo: local
+    hooks:
+      - id: plumber
+        name: plumber (GitHub Actions security audit)
+        language: script
+        entry: .pre-commit-plumber.sh
+        pass_filenames: false
+        files: ^\.github/workflows/.*\.yml$
