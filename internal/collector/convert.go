@@ -62,29 +62,3 @@ func toSnake(s string) string {
 	}
 	return b.String()
 }
-
-// normalizeTags convertit la forme API (Key/Value) vers la forme policy (key/value).
-func normalizeTags(values map[string]interface{}) {
-	t, ok := values["tags"]
-	if !ok {
-		return
-	}
-	arr, ok := t.([]interface{})
-	if !ok {
-		return
-	}
-	for i, item := range arr {
-		m, ok := item.(map[string]interface{})
-		if !ok {
-			continue
-		}
-		if v, ok := m["key"]; ok {
-			m["key"] = v
-		}
-		if v, ok := m["value"]; ok {
-			m["value"] = v
-		}
-		arr[i] = m
-	}
-	values["tags"] = arr
-}

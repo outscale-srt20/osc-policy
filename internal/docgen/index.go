@@ -33,7 +33,7 @@ func WriteIndex(w io.Writer, rules []*RuleMetadata) error {
 		if len(list) == 0 {
 			continue
 		}
-		title := strings.Title(cat)
+		title := strings.ToUpper(cat[:1]) + cat[1:]
 		fmt.Fprintf(w, "## %s (%d règles)\n\n", title, len(list))
 		fmt.Fprintf(w, "| ID | Sévérité | Ressource | Titre |\n|:---|:---|:---|:---|\n")
 		for _, r := range list {
