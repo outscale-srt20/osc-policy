@@ -125,7 +125,7 @@ GitHub Releases. Pas de Go requis côté utilisateur.
 
 ```bash
 # Dernière release
-mise use --global github:outscale-srt20/osc-policy@latest
+mise use --global github:outscale-srt20/osc-policy
 
 # Version épinglée (recommandé en CI)
 mise use --global github:outscale-srt20/osc-policy@v0.0.2
