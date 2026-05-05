@@ -17,7 +17,8 @@ jobs:
     environment: release
     permissions:
       contents: write    # upload release assets
-      id-token: write    # cosign keyless signing
+      id-token: write    # cosign keyless signing + SLSA provenance
+      attestations: write  # GitHub native SLSA provenance
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -44,3 +45,11 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: SLSA provenance
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/checksums.txt

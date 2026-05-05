@@ -5,6 +5,21 @@ All notable changes to `osc-policy` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.10] - 2026-05-05
+
+### Fixed
+
+- OpenSSF Scorecard — Signed-Releases : ajout de la provenance SLSA native
+  GitHub (`actions/attest-build-provenance`) reconnue par Scorecard v5+.
+  Le format `.bundle` cosign v2 n'est pas détecté par le check.
+
+## [0.0.9] - 2026-05-05
+
+### Fixed
+
+- OpenSSF Scorecard — cosign : correction du bloc `signs:` pour cosign v2
+  (`--bundle` remplace `--output-signature`/`--output-certificate` dépréciés).
+
 ## [0.0.8] - 2026-05-05
 
 ### Fixed
