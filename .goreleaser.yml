@@ -68,6 +68,21 @@ changelog:
       - Merge pull request
       - Merge branch
 
+# Cosign keyless signing (Signed-Releases / OpenSSF Scorecard)
+signs:
+  - cmd: cosign
+    env:
+      - COSIGN_EXPERIMENTAL=1
+    certificate: '${artifact}.pem'
+    args:
+      - sign-blob
+      - '--output-certificate=${certificate}'
+      - '--output-signature=${signature}'
+      - '${artifact}'
+      - --yes
+    artifacts: checksum
+    output: true
+
 # SBOM (recommandé pour SecNumCloud / supply chain)
 sboms:
   - artifacts: archive

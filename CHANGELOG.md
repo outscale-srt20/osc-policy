@@ -5,6 +5,21 @@ All notable changes to `osc-policy` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.8] - 2026-05-05
+
+### Fixed
+
+- OpenSSF Scorecard — Token-Permissions : permissions `contents: write` et
+  `id-token: write` déplacées au niveau job dans `release.yml` et `sbom.yml` ;
+  suppression de `packages: write` inutilisé.
+- OpenSSF Scorecard — Pinned-Dependencies : épinglage de
+  `trufflesecurity/trufflehog` à son SHA (était `@main`).
+- OpenSSF Scorecard — Signed-Releases : ajout du bloc `signs:` cosign dans
+  `.goreleaser.yml` pour la signature keyless des releases.
+- OpenSSF Scorecard — Vulnerabilities : upgrade `golang.org/x/crypto` v0.42→v0.50
+  (GO-2025-4116, GO-2025-4134, GO-2025-4135) et `aws-sdk-go` v1.44→v1.55.
+- Mise à jour Go 1.24 → 1.25 dans tous les workflows CI.
+
 ## [0.0.7] - 2026-05-05
 
 ### Fixed
