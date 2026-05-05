@@ -51,7 +51,7 @@ Rego évaluées par le moteur OPA embarqué.`,
 		result := <-updateCh
 		if result != nil && result.Newer {
 			fmt.Fprintf(os.Stderr, "\n⚡ Nouvelle version disponible : v%s (actuelle : v%s)\n", result.Latest, result.Current)
-			fmt.Fprintf(os.Stderr, "   mise use --global ubi:outscale-srt20/osc-policy@v%s\n\n", result.Latest)
+			fmt.Fprintf(os.Stderr, "   mise use --global github:outscale-srt20/osc-policy@latest\n\n")
 		}
 	},
 }

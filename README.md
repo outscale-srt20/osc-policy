@@ -118,21 +118,20 @@ inspiré de `checkov` / `tfsec`, exports SARIF / JUnit / JSON / Markdown.
 
 ## Installation
 
-### Via mise — backend `ubi` (recommandé, dès qu'une release existe)
+### Via mise (recommandé)
 
 [mise](https://mise.jdx.dev/) télécharge le binaire pré-compilé depuis les
-GitHub Releases via [Universal Binary Installer](https://github.com/houseabsolute/ubi).
-Pas de Go requis côté utilisateur.
+GitHub Releases. Pas de Go requis côté utilisateur.
 
 ```bash
 # Dernière release
-mise use --global ubi:outscale-srt20/osc-policy
+mise use --global github:outscale-srt20/osc-policy@latest
 
 # Version épinglée (recommandé en CI)
-mise use --global ubi:outscale-srt20/osc-policy@v1.2.0
+mise use --global github:outscale-srt20/osc-policy@v0.0.2
 
 # Vérifier
-osc-policy version
+osc-policy --version
 ```
 
 > Les releases sont produites automatiquement par [GoReleaser](.goreleaser.yml)
