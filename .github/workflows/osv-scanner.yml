@@ -16,7 +16,7 @@ permissions: read-all
 
 jobs:
   scan:
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@e69cc6c86b31f1e7e23935bbe7031b50e51082de # v2.0.2
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@c51854704019a247608d928f370c98740469d4b5 # v2.3.5
     with:
       scan-args: |-
         --recursive
