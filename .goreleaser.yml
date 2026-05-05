@@ -68,22 +68,6 @@ changelog:
       - Merge pull request
       - Merge branch
 
-# Cosign keyless signing — format classique .sig/.pem reconnu par Scorecard
-signs:
-  - cmd: cosign
-    env:
-      - COSIGN_EXPERIMENTAL=1
-    certificate: '${artifact}.pem'
-    args:
-      - sign-blob
-      - '--output-certificate=${certificate}'
-      - '--output-signature=${signature}'
-      - '--new-bundle-format=false'
-      - '${artifact}'
-      - --yes
-    artifacts: checksum
-    output: true
-
 # SBOM (recommandé pour SecNumCloud / supply chain)
 sboms:
   - artifacts: archive
