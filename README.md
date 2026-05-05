@@ -3,9 +3,12 @@
 [![CI](https://github.com/outscale-srt20/osc-policy/actions/workflows/ci.yml/badge.svg)](https://github.com/outscale-srt20/osc-policy/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/outscale-srt20/osc-policy/actions/workflows/codeql.yml/badge.svg)](https://github.com/outscale-srt20/osc-policy/actions/workflows/codeql.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/outscale-srt20/osc-policy/badge)](https://scorecard.dev/viewer/?uri=github.com/outscale-srt20/osc-policy)
+[![SLSA 3](https://slsa.dev/images/gh-badge-level3.svg)](https://slsa.dev/spec/v1.0/levels#build-l3)
 [![Go Report Card](https://goreportcard.com/badge/github.com/outscale-srt20/osc-policy)](https://goreportcard.com/report/github.com/outscale-srt20/osc-policy)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/outscale-srt20/osc-policy)](go.mod)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/outscale-srt20/osc-policy)](https://github.com/outscale-srt20/osc-policy/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/outscale-srt20/osc-policy/total)](https://github.com/outscale-srt20/osc-policy/releases)
 
 > Scanner **policy-as-code** de sécurité, conformité et FinOps pour
 > [Outscale](https://outscale.com/). Analyse les **plans Terraform** avant
