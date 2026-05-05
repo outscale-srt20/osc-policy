@@ -138,7 +138,7 @@ GitHub Releases. Pas de Go requis côté utilisateur.
 mise use --global github:outscale-srt20/osc-policy
 
 # Version épinglée (recommandé en CI)
-mise use --global github:outscale-srt20/osc-policy@v0.0.5
+mise use --global github:outscale-srt20/osc-policy@v0.0.7
 
 # Vérifier
 osc-policy --version
