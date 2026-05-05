@@ -68,15 +68,17 @@ changelog:
       - Merge pull request
       - Merge branch
 
-# Cosign keyless signing (Signed-Releases / OpenSSF Scorecard)
+# Cosign keyless signing — format classique .sig/.pem reconnu par Scorecard
 signs:
   - cmd: cosign
     env:
       - COSIGN_EXPERIMENTAL=1
-    signature: '${artifact}.bundle'
+    certificate: '${artifact}.pem'
     args:
       - sign-blob
-      - '--bundle=${signature}'
+      - '--output-certificate=${certificate}'
+      - '--output-signature=${signature}'
+      - '--new-bundle-format=false'
       - '${artifact}'
       - --yes
     artifacts: checksum
@@ -88,6 +90,7 @@ sboms:
 
 release:
   draft: true
+  replace_existing_draft: true
   prerelease: auto
   header: |
     ## osc-policy {{ .Tag }}
