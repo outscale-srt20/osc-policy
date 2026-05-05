@@ -25,7 +25,7 @@ func WriteIndex(w io.Writer, rules []*RuleMetadata) error {
 		})
 	}
 
-	fmt.Fprintf(w, "# Référence des règles osc-policy\n\n")
+	_, _ = fmt.Fprintf(w, "# Référence des règles osc-policy\n\n")
 
 	cats := []string{"security", "finops", "compliance"}
 	for _, cat := range cats {
@@ -34,14 +34,14 @@ func WriteIndex(w io.Writer, rules []*RuleMetadata) error {
 			continue
 		}
 		title := strings.ToUpper(cat[:1]) + cat[1:]
-		fmt.Fprintf(w, "## %s (%d règles)\n\n", title, len(list))
-		fmt.Fprintf(w, "| ID | Sévérité | Ressource | Titre |\n|:---|:---|:---|:---|\n")
+		_, _ = fmt.Fprintf(w, "## %s (%d règles)\n\n", title, len(list))
+		_, _ = fmt.Fprintf(w, "| ID | Sévérité | Ressource | Titre |\n|:---|:---|:---|:---|\n")
 		for _, r := range list {
 			res := strings.Join(r.ResourceTypes, ", ")
-			fmt.Fprintf(w, "| [%s](%s/%s.md) | %s | %s | %s |\n",
+			_, _ = fmt.Fprintf(w, "| [%s](%s/%s.md) | %s | %s | %s |\n",
 				r.ID, cat, r.ID, sevEmoji(r.Severity), res, r.Title)
 		}
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w)
 	}
 	return nil
 }

@@ -25,7 +25,7 @@ jobs:
           persist-credentials: false
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@v4
+        uses: sigstore/cosign-installer@v3
 
       - name: Install syft (SBOM)
         uses: anchore/sbom-action/download-syft@v0.24.0

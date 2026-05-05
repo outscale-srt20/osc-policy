@@ -109,7 +109,7 @@ func listSuppressions(f *ignores.File, path string) error {
 		if ig.AddedBy != "" {
 			fmt.Printf("      ajouté par: %s (%s)\n", ig.AddedBy, ig.AddedAt)
 		}
-		fmt.Fprintln(os.Stdout)
+		_, _ = fmt.Fprintln(os.Stdout)
 	}
 	return nil
 }

@@ -140,8 +140,8 @@ func groupFindingsByRule(fs []report.Finding) map[string][]report.Finding {
 func generateComplianceReport(framework string, byControl map[string][]*docgen.RuleMetadata, findingsByRule map[string][]report.Finding) string {
 	var sb strings.Builder
 
-	sb.WriteString(fmt.Sprintf("# Rapport de conformité — %s\n\n", strings.ToUpper(framework)))
-	sb.WriteString(fmt.Sprintf("_Généré le %s par osc-policy_\n\n", time.Now().Format("2006-01-02 15:04")))
+	_, _ = fmt.Fprintf(&sb, "# Rapport de conformité — %s\n\n", strings.ToUpper(framework))
+	_, _ = fmt.Fprintf(&sb, "_Généré le %s par osc-policy_\n\n", time.Now().Format("2006-01-02 15:04"))
 	if findingsByRule == nil {
 		sb.WriteString("> Aucun scan fourni. Le rapport liste uniquement la couverture théorique du framework par les règles disponibles.\n\n")
 	}
@@ -201,15 +201,15 @@ func generateComplianceReport(framework string, byControl map[string][]*docgen.R
 
 	if findingsByRule != nil {
 		sb.WriteString("## Synthèse\n\n")
-		sb.WriteString(fmt.Sprintf("- Contrôles couverts par osc-policy : **%d**\n", totalControls))
-		sb.WriteString(fmt.Sprintf("- ✅ Conformes (aucun finding) : **%d**\n", passed))
-		sb.WriteString(fmt.Sprintf("- ❌ Non-conformes (findings actifs) : **%d**\n", failed))
+		_, _ = fmt.Fprintf(&sb, "- Contrôles couverts par osc-policy : **%d**\n", totalControls)
+		_, _ = fmt.Fprintf(&sb, "- ✅ Conformes (aucun finding) : **%d**\n", passed)
+		_, _ = fmt.Fprintf(&sb, "- ❌ Non-conformes (findings actifs) : **%d**\n", failed)
 		if totalControls > 0 {
 			pct := 100 * passed / totalControls
-			sb.WriteString(fmt.Sprintf("- Score de conformité : **%d %%**\n\n", pct))
+			_, _ = fmt.Fprintf(&sb, "- Score de conformité : **%d %%**\n\n", pct)
 		}
 	} else {
-		sb.WriteString(fmt.Sprintf("Contrôles du framework couverts par les règles osc-policy : **%d**\n\n", totalControls))
+		_, _ = fmt.Fprintf(&sb, "Contrôles du framework couverts par les règles osc-policy : **%d**\n\n", totalControls)
 	}
 
 	sb.WriteString("## Détail par contrôle\n\n")
@@ -241,9 +241,9 @@ func generateComplianceReport(framework string, byControl map[string][]*docgen.R
 				if len(fs) == 0 {
 					continue
 				}
-				sb.WriteString(fmt.Sprintf("### %s — %s\n\n", rid, fs[0].RuleTitle))
+				_, _ = fmt.Fprintf(&sb, "### %s — %s\n\n", rid, fs[0].RuleTitle)
 				for _, f := range fs {
-					sb.WriteString(fmt.Sprintf("- **%s** `%s` — %s\n", f.Severity, f.ResourceID, f.Message))
+					_, _ = fmt.Fprintf(&sb, "- **%s** `%s` — %s\n", f.Severity, f.ResourceID, f.Message)
 				}
 				sb.WriteString("\n")
 			}

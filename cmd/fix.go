@@ -44,9 +44,9 @@ Exemple :
 
 			tmpl, ok := remediationTemplates[ruleID]
 			if !ok {
-				fmt.Fprintln(os.Stdout)
-				fmt.Fprintf(os.Stdout, "Pas de template d'auto-remédiation pour %s.\n", ruleID)
-				fmt.Fprintf(os.Stdout, "Consulter la remédiation textuelle :\n  osc-policy explain %s\n\n", ruleID)
+				_, _ = fmt.Fprintln(os.Stdout)
+				_, _ = fmt.Fprintf(os.Stdout, "Pas de template d'auto-remédiation pour %s.\n", ruleID)
+				_, _ = fmt.Fprintf(os.Stdout, "Consulter la remédiation textuelle :\n  osc-policy explain %s\n\n", ruleID)
 				return nil
 			}
 

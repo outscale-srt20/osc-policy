@@ -208,18 +208,18 @@ func writeScoreBlock(w io.Writer, sc ScanScore) {
 	}
 
 	for i := 0; i < 6; i++ {
-		fmt.Fprintln(w, " "+letterStyle.Render(letter[i])+"  "+right[i])
+		_, _ = fmt.Fprintln(w, " "+letterStyle.Render(letter[i])+"  "+right[i])
 	}
 
 	if sc.CriticalCapApplied {
-		fmt.Fprintln(w)
-		fmt.Fprintln(w, " "+styleFail.Render("▲ Plafond CRITICAL appliqué")+
+		_, _ = fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, " "+styleFail.Render("▲ Plafond CRITICAL appliqué")+
 			styleMuted.Render("  (score ≤ 45 tant qu'un CRITICAL est présent)"))
 	}
 
 	if len(sc.Services) > 0 {
-		fmt.Fprintln(w)
-		fmt.Fprintln(w, " "+styleMuted.Render("Par service"))
+		_, _ = fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, " "+styleMuted.Render("Par service"))
 
 		headers := []string{"Service", "Score", "Grade", "Fail", "Répartition C·H·M·L"}
 		rows := make([][]string, 0, len(sc.Services))
@@ -373,8 +373,8 @@ func WriteTerminal(w io.Writer, r ScanResult, opts TerminalOptions) {
 	}
 
 	if len(failed) == 0 && !opts.Quiet {
-		fmt.Fprintln(w, "  "+stylePass.Render("✓")+" "+styleValue.Render("Aucun finding — tout est conforme"))
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, "  "+stylePass.Render("✓")+" "+styleValue.Render("Aucun finding — tout est conforme"))
+		_, _ = fmt.Fprintln(w)
 	} else {
 		multiAccount := hasMultipleAccounts(failed)
 		if !opts.Quiet {
@@ -500,17 +500,17 @@ func writeRuleGroup(w io.Writer, ruleID string, g *ruleGroup, multiAccount bool)
 	catTag := styleMuted.Render(categoryIcon(g.Category) + " " + string(g.Category))
 	title := styleTitle.Render(truncate(g.Title, hrWidth-16))
 
-	fmt.Fprintln(w)
-	fmt.Fprintln(w, bar)
-	fmt.Fprintln(w, " "+sevTag+styleMuted.Render("  ·  ")+
+	_, _ = fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, bar)
+	_, _ = fmt.Fprintln(w, " "+sevTag+styleMuted.Render("  ·  ")+
 		styleAccent.Render(ruleID)+styleMuted.Render("  ·  ")+catTag)
-	fmt.Fprintln(w, " "+title)
-	fmt.Fprintln(w, bar)
+	_, _ = fmt.Fprintln(w, " "+title)
+	_, _ = fmt.Fprintln(w, bar)
 
-	fmt.Fprintln(w, "  "+styleMuted.Render("Total Findings:")+" "+
+	_, _ = fmt.Fprintln(w, "  "+styleMuted.Render("Total Findings:")+" "+
 		lipgloss.NewStyle().Foreground(sc).Bold(true).Render(fmt.Sprintf("%d", len(g.Findings))))
-	fmt.Fprintln(w)
-	fmt.Fprintln(w, "  "+styleMuted.Render("Issues Found:"))
+	_, _ = fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, "  "+styleMuted.Render("Issues Found:"))
 
 	for _, f := range g.Findings {
 		sev := lipgloss.NewStyle().Foreground(severityColor(f.Severity)).Bold(true).
@@ -521,35 +521,35 @@ func writeRuleGroup(w io.Writer, ruleID string, g *ruleGroup, multiAccount bool)
 			resource = f.ResourceID
 		}
 
-		fmt.Fprintf(w, "      %s  %s — %s\n",
+		_, _ = fmt.Fprintf(w, "      %s  %s — %s\n",
 			sev,
 			styleValue.Render(resource),
 			styleValue.Render(f.Message))
 
 		if multiAccount && f.Account != "" {
-			fmt.Fprintln(w, "      "+styleMuted.Render("↳ compte: "+f.Account))
+			_, _ = fmt.Fprintln(w, "      "+styleMuted.Render("↳ compte: "+f.Account))
 		}
 		if f.ResourceType != "" {
-			fmt.Fprintln(w, "      "+styleMuted.Render("↳ type: "+f.ResourceType))
+			_, _ = fmt.Fprintln(w, "      "+styleMuted.Render("↳ type: "+f.ResourceType))
 		}
 		if f.FilePath != "" {
-			fmt.Fprintln(w, "      "+styleMuted.Render("↳ at "+f.FilePath))
+			_, _ = fmt.Fprintln(w, "      "+styleMuted.Render("↳ at "+f.FilePath))
 		}
 	}
 
 	if g.Remediation != "" {
-		fmt.Fprintln(w)
-		fmt.Fprintln(w, "  "+styleMuted.Render("Remédiation"))
+		_, _ = fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, "  "+styleMuted.Render("Remédiation"))
 		for _, l := range strings.Split(strings.TrimRight(g.Remediation, "\n"), "\n") {
-			fmt.Fprintln(w, "    "+styleValue.Render(l))
+			_, _ = fmt.Fprintln(w, "    "+styleValue.Render(l))
 		}
 	}
 
 	if len(g.References) > 0 {
-		fmt.Fprintln(w)
-		fmt.Fprintln(w, "  "+styleMuted.Render("Références"))
+		_, _ = fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, "  "+styleMuted.Render("Références"))
 		for _, ref := range g.References {
-			fmt.Fprintln(w, "    "+styleMuted.Render("• ")+styleValue.Render(ref))
+			_, _ = fmt.Fprintln(w, "    "+styleMuted.Render("• ")+styleValue.Render(ref))
 		}
 	}
 }
@@ -558,8 +558,8 @@ func writeRuleGroup(w io.Writer, ruleID string, g *ruleGroup, multiAccount bool)
 // chaque règle ayant déclenché, sa sévérité et son nombre d'occurrences.
 // Rendu avec des bordures Unicode (╭─┬─╮ / ├─┼─┤ / ╰─┴─╯).
 func writeControlsTable(w io.Writer, order []string, byRule map[string]*ruleGroup) {
-	fmt.Fprintln(w)
-	fmt.Fprintln(w, "  "+styleMuted.Render("Controls"))
+	_, _ = fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, "  "+styleMuted.Render("Controls"))
 
 	headers := []string{"Control", "Code", "Severity", "#"}
 	rows := make([][]string, 0, len(order))
@@ -628,13 +628,13 @@ func writeBoxTable(w io.Writer, indent string, headers []string, rows [][]string
 		return indent + sep + strings.Join(parts, sep) + sep
 	}
 
-	fmt.Fprintln(w, line("╭", "┬", "╮", "─"))
-	fmt.Fprintln(w, row(headers))
-	fmt.Fprintln(w, line("├", "┼", "┤", "─"))
+	_, _ = fmt.Fprintln(w, line("╭", "┬", "╮", "─"))
+	_, _ = fmt.Fprintln(w, row(headers))
+	_, _ = fmt.Fprintln(w, line("├", "┼", "┤", "─"))
 	for _, r := range rows {
-		fmt.Fprintln(w, row(r))
+		_, _ = fmt.Fprintln(w, row(r))
 	}
-	fmt.Fprintln(w, line("╰", "┴", "╯", "─"))
+	_, _ = fmt.Fprintln(w, line("╰", "┴", "╯", "─"))
 }
 
 // bannerLines est le logo ASCII « osc-policy » affiché en tête de chaque run.
@@ -659,28 +659,28 @@ func WriteStartupBanner(w io.Writer, version string, noColor, quiet bool) {
 	if noColor {
 		lipgloss.SetColorProfile(termenv.Ascii)
 	}
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w)
 	for _, l := range bannerLines {
-		fmt.Fprintln(w, " "+styleBrand.Render(l))
+		_, _ = fmt.Fprintln(w, " "+styleBrand.Render(l))
 	}
 	tagline := styleMuted.Render("v"+version) +
 		"  " + styleAccent.Render("· Outscale Security, Compliance & FinOps Scanner")
-	fmt.Fprintln(w)
-	fmt.Fprintln(w, " "+tagline)
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, " "+tagline)
+	_, _ = fmt.Fprintln(w)
 }
 
 func writeHeader(w io.Writer, r ScanResult, opts TerminalOptions) {
-	fmt.Fprintln(w, styleRule.Render(strings.Repeat("─", hrWidth)))
-	fmt.Fprintln(w, metaLine("Mode", r.ScanMode))
-	fmt.Fprintln(w, metaLine("Source", opts.Input))
+	_, _ = fmt.Fprintln(w, styleRule.Render(strings.Repeat("─", hrWidth)))
+	_, _ = fmt.Fprintln(w, metaLine("Mode", r.ScanMode))
+	_, _ = fmt.Fprintln(w, metaLine("Source", opts.Input))
 	if opts.Account != "" {
-		fmt.Fprintln(w, metaLine("Compte", opts.Account))
+		_, _ = fmt.Fprintln(w, metaLine("Compte", opts.Account))
 	}
-	fmt.Fprintln(w, metaLine("Policies", opts.Profile))
-	fmt.Fprintln(w, metaLine("Règles", fmt.Sprintf("%d chargées", opts.RuleCount)))
-	fmt.Fprintln(w, styleRule.Render(strings.Repeat("─", hrWidth)))
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, metaLine("Policies", opts.Profile))
+	_, _ = fmt.Fprintln(w, metaLine("Règles", fmt.Sprintf("%d chargées", opts.RuleCount)))
+	_, _ = fmt.Fprintln(w, styleRule.Render(strings.Repeat("─", hrWidth)))
+	_, _ = fmt.Fprintln(w)
 }
 
 func metaLine(label, value string) string {
@@ -691,13 +691,13 @@ func writeSummary(w io.Writer, r ScanResult) {
 	s := r.Summary
 	sep := styleRule.Render(strings.Repeat("─", hrWidth))
 
-	fmt.Fprintln(w, sep)
-	fmt.Fprintln(w, " "+styleBrand.Render("Résumé"))
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, sep)
+	_, _ = fmt.Fprintln(w, " "+styleBrand.Render("Résumé"))
+	_, _ = fmt.Fprintln(w)
 
 	if r.Score != nil {
 		writeScoreBlock(w, *r.Score)
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w)
 	}
 
 	chip := func(icon, label string, n int, c lipgloss.Color) string {
@@ -706,26 +706,26 @@ func writeSummary(w io.Writer, r ScanResult) {
 	}
 
 	rulesFired := distinctRuleIDs(r.Findings)
-	fmt.Fprintln(w, " "+styleMuted.Render("Findings")+"         "+
+	_, _ = fmt.Fprintln(w, " "+styleMuted.Render("Findings")+"         "+
 		lipgloss.NewStyle().Foreground(colCritical).Bold(true).Render(fmt.Sprintf("%d", s.Failed))+
 		styleMuted.Render(fmt.Sprintf("  (issus de %d règles)", rulesFired)))
 
-	fmt.Fprintln(w)
-	fmt.Fprintln(w, " "+styleMuted.Render("Par catégorie"))
-	fmt.Fprintln(w, " "+
+	_, _ = fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, " "+styleMuted.Render("Par catégorie"))
+	_, _ = fmt.Fprintln(w, " "+
 		chip("🔒", "Security", s.ByCategory[CategorySecurity], colAccent)+"  "+
 		chip("💰", "FinOps", s.ByCategory[CategoryFinOps], colMedium)+"  "+
 		chip("📋", "Compliance", s.ByCategory[CategoryCompliance], colBrand))
 
 	if s.TotalMonthlyCost > 0 || s.TotalPotentialSavings > 0 {
-		fmt.Fprintln(w)
-		fmt.Fprintln(w, " "+styleMuted.Render(fmt.Sprintf("%-22s", "Coût mensuel estimé"))+"  "+
+		_, _ = fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, " "+styleMuted.Render(fmt.Sprintf("%-22s", "Coût mensuel estimé"))+"  "+
 			styleCost.Render(fmt.Sprintf("%10.2f €", s.TotalMonthlyCost)))
-		fmt.Fprintln(w, " "+styleMuted.Render(fmt.Sprintf("%-22s", "Économies potentielles"))+"  "+
+		_, _ = fmt.Fprintln(w, " "+styleMuted.Render(fmt.Sprintf("%-22s", "Économies potentielles"))+"  "+
 			styleSave.Render(fmt.Sprintf("%10.2f €", s.TotalPotentialSavings)))
 	}
 
-	fmt.Fprintln(w, sep)
+	_, _ = fmt.Fprintln(w, sep)
 }
 
 // writeImmediateActions affiche en tête de rapport les 3 findings les plus
@@ -749,21 +749,21 @@ func writeImmediateActions(w io.Writer, findings []Finding) {
 	cmd := lipgloss.NewStyle().Foreground(lipgloss.Color("12"))
 
 	sep := strings.Repeat("─", 78)
-	fmt.Fprintln(w, sep)
-	fmt.Fprintln(w, " "+header.Render("⚡ Action immédiate — top 3 findings critiques"))
-	fmt.Fprintln(w, sep)
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, sep)
+	_, _ = fmt.Fprintln(w, " "+header.Render("⚡ Action immédiate — top 3 findings critiques"))
+	_, _ = fmt.Fprintln(w, sep)
+	_, _ = fmt.Fprintln(w)
 
 	for i, f := range top {
 		sevTag := sevIcon(f.Severity) + " " + shortSev(f.Severity)
-		fmt.Fprintf(w, "  %d. %s  %s — %s\n", i+1, sevTag, lipgloss.NewStyle().Bold(true).Render(f.RuleID), truncate(f.RuleTitle, 60))
+		_, _ = fmt.Fprintf(w, "  %d. %s  %s — %s\n", i+1, sevTag, lipgloss.NewStyle().Bold(true).Render(f.RuleID), truncate(f.RuleTitle, 60))
 		if f.ResourceAddress != "" {
-			fmt.Fprintf(w, "     %s %s\n", dim.Render("ressource :"), f.ResourceAddress)
+			_, _ = fmt.Fprintf(w, "     %s %s\n", dim.Render("ressource :"), f.ResourceAddress)
 		}
-		fmt.Fprintf(w, "     %s %s\n", dim.Render("explain   :"), cmd.Render("osc-policy explain "+f.RuleID))
+		_, _ = fmt.Fprintf(w, "     %s %s\n", dim.Render("explain   :"), cmd.Render("osc-policy explain "+f.RuleID))
 		if f.ResourceID != "" {
-			fmt.Fprintf(w, "     %s %s\n", dim.Render("fix       :"), cmd.Render(fmt.Sprintf("osc-policy fix --rule %s --resource %s", f.RuleID, f.ResourceID)))
+			_, _ = fmt.Fprintf(w, "     %s %s\n", dim.Render("fix       :"), cmd.Render(fmt.Sprintf("osc-policy fix --rule %s --resource %s", f.RuleID, f.ResourceID)))
 		}
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w)
 	}
 }

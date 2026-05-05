@@ -79,72 +79,72 @@ func renderExplain(w *os.File, m *docgen.RuleMetadata) {
 	dim := lipgloss.NewStyle().Foreground(lipgloss.Color("8"))
 	sev := severityStyle(m.Severity)
 
-	fmt.Fprintln(w)
-	fmt.Fprintln(w, header.Render(strings.Repeat("─", 78)))
-	fmt.Fprintf(w, "  %s  %s\n", sev.Render(strings.ToUpper(m.Severity)), rule.Render(m.ID))
-	fmt.Fprintf(w, "  %s\n", m.Title)
-	fmt.Fprintln(w, header.Render(strings.Repeat("─", 78)))
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, header.Render(strings.Repeat("─", 78)))
+	_, _ = fmt.Fprintf(w, "  %s  %s\n", sev.Render(strings.ToUpper(m.Severity)), rule.Render(m.ID))
+	_, _ = fmt.Fprintf(w, "  %s\n", m.Title)
+	_, _ = fmt.Fprintln(w, header.Render(strings.Repeat("─", 78)))
+	_, _ = fmt.Fprintln(w)
 
 	if m.Description != "" {
-		fmt.Fprintln(w, header.Render("Description"))
-		fmt.Fprintln(w, indent(strings.TrimSpace(m.Description), "  "))
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, header.Render("Description"))
+		_, _ = fmt.Fprintln(w, indent(strings.TrimSpace(m.Description), "  "))
+		_, _ = fmt.Fprintln(w)
 	}
 
 	if m.Category != "" || m.Profile != "" || len(m.ResourceTypes) > 0 || m.Source != "" {
-		fmt.Fprintln(w, header.Render("Métadonnées"))
+		_, _ = fmt.Fprintln(w, header.Render("Métadonnées"))
 		if m.Category != "" {
-			fmt.Fprintf(w, "  • Catégorie       : %s\n", m.Category)
+			_, _ = fmt.Fprintf(w, "  • Catégorie       : %s\n", m.Category)
 		}
 		if m.Profile != "" {
-			fmt.Fprintf(w, "  • Profile         : %s\n", m.Profile)
+			_, _ = fmt.Fprintf(w, "  • Profile         : %s\n", m.Profile)
 		}
 		if m.Source != "" {
-			fmt.Fprintf(w, "  • Source          : %s\n", m.Source)
+			_, _ = fmt.Fprintf(w, "  • Source          : %s\n", m.Source)
 		}
 		if len(m.ResourceTypes) > 0 {
-			fmt.Fprintf(w, "  • Resource types  : %s\n", strings.Join(m.ResourceTypes, ", "))
+			_, _ = fmt.Fprintf(w, "  • Resource types  : %s\n", strings.Join(m.ResourceTypes, ", "))
 		}
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w)
 	}
 
 	if m.NoncompliantExample != "" {
-		fmt.Fprintln(w, header.Render("❌ Exemple non-conforme"))
-		fmt.Fprintln(w, indent(strings.TrimSpace(m.NoncompliantExample), "  "))
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, header.Render("❌ Exemple non-conforme"))
+		_, _ = fmt.Fprintln(w, indent(strings.TrimSpace(m.NoncompliantExample), "  "))
+		_, _ = fmt.Fprintln(w)
 	}
 
 	if m.CompliantExample != "" {
-		fmt.Fprintln(w, header.Render("✅ Exemple conforme"))
-		fmt.Fprintln(w, indent(strings.TrimSpace(m.CompliantExample), "  "))
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, header.Render("✅ Exemple conforme"))
+		_, _ = fmt.Fprintln(w, indent(strings.TrimSpace(m.CompliantExample), "  "))
+		_, _ = fmt.Fprintln(w)
 	}
 
 	if m.Remediation != "" {
-		fmt.Fprintln(w, header.Render("🔧 Remédiation"))
-		fmt.Fprintln(w, indent(strings.TrimSpace(m.Remediation), "  "))
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w, header.Render("🔧 Remédiation"))
+		_, _ = fmt.Fprintln(w, indent(strings.TrimSpace(m.Remediation), "  "))
+		_, _ = fmt.Fprintln(w)
 	}
 
 	if len(m.Compliance) > 0 {
-		fmt.Fprintln(w, header.Render("📋 Conformité"))
+		_, _ = fmt.Fprintln(w, header.Render("📋 Conformité"))
 		for fw, controls := range m.Compliance {
-			fmt.Fprintf(w, "  • %-20s : %s\n", strings.ToUpper(fw), strings.Join(controls, ", "))
+			_, _ = fmt.Fprintf(w, "  • %-20s : %s\n", strings.ToUpper(fw), strings.Join(controls, ", "))
 		}
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w)
 	}
 
 	if len(m.References) > 0 {
-		fmt.Fprintln(w, header.Render("Références"))
+		_, _ = fmt.Fprintln(w, header.Render("Références"))
 		for _, ref := range m.References {
-			fmt.Fprintf(w, "  • %s\n", ref)
+			_, _ = fmt.Fprintf(w, "  • %s\n", ref)
 		}
-		fmt.Fprintln(w)
+		_, _ = fmt.Fprintln(w)
 	}
 
-	fmt.Fprintln(w, dim.Render(fmt.Sprintf("  Source: %s", m.RegoFile)))
-	fmt.Fprintln(w)
+	_, _ = fmt.Fprintln(w, dim.Render(fmt.Sprintf("  Source: %s", m.RegoFile)))
+	_, _ = fmt.Fprintln(w)
 }
 
 func severityStyle(sev string) lipgloss.Style {

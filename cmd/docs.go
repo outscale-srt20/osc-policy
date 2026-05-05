@@ -60,10 +60,10 @@ func docsGenerateCmd() *cobra.Command {
 				return err
 			}
 			if err := docgen.WriteIndex(idx, rules); err != nil {
-				idx.Close()
+				_ = idx.Close()
 				return err
 			}
-			idx.Close()
+			_ = idx.Close()
 
 			// Un fichier par règle
 			for _, r := range rules {
@@ -76,10 +76,10 @@ func docsGenerateCmd() *cobra.Command {
 					return err
 				}
 				if err := docgen.WriteRuleMarkdown(f, r); err != nil {
-					f.Close()
+					_ = f.Close()
 					return err
 				}
-				f.Close()
+				_ = f.Close()
 			}
 
 			fmt.Printf("✅ %d règles documentées dans %s\n", len(rules), outputDir)
