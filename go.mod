@@ -13,7 +13,7 @@ require (
 	github.com/open-policy-agent/opa v1.9.0
 	github.com/outscale/osc-sdk-go/v2 v2.24.0
 	github.com/schollz/progressbar/v3 v3.19.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	gopkg.in/yaml.v3 v3.0.1
 )
