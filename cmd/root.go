@@ -9,18 +9,18 @@ import (
 
 // GlobalFlags regroupe les flags globaux du CLI.
 type GlobalFlags struct {
-	ConfigPath  string
-	Output      string
-	Severity    string
-	Profile     string
-	PolicyDir   string
-	SkipRules   []string
-	TagFilter   []string
-	NoColor     bool
-	Quiet       bool
-	FailOn      string
-	MinGrade    string
-	Debug       bool
+	ConfigPath string
+	Output     string
+	Severity   string
+	Profile    string
+	PolicyDir  string
+	SkipRules  []string
+	TagFilter  []string
+	NoColor    bool
+	Quiet      bool
+	FailOn     string
+	MinGrade   string
+	Debug      bool
 }
 
 var gflags = &GlobalFlags{}

@@ -145,12 +145,12 @@ func scanLiveCmd() *cobra.Command {
 }
 
 // resolveTargets construit la liste des cibles à scanner selon la précédence :
-//   1. --access-key / --secret-key → un seul scan
-//   2. OUTSCALE_ACCESSKEYID env → un seul scan
-//   3. --profile-name all → tous les profils de ~/.osc/config.json (opt-in)
-//   4. --profile-name <nom> → ce profil
-//   5. Sinon → profil "default" de ~/.osc/config.json
-//   6. Si le fichier n'existe pas → fallback NewClient (erreur si pas de creds)
+//  1. --access-key / --secret-key → un seul scan
+//  2. OUTSCALE_ACCESSKEYID env → un seul scan
+//  3. --profile-name all → tous les profils de ~/.osc/config.json (opt-in)
+//  4. --profile-name <nom> → ce profil
+//  5. Sinon → profil "default" de ~/.osc/config.json
+//  6. Si le fichier n'existe pas → fallback NewClient (erreur si pas de creds)
 func resolveTargets(cfg *config.Config, region, accessKey, secretKey, profileName string) ([]scanTarget, error) {
 	// Cas 1 — flags explicites
 	if accessKey != "" && secretKey != "" {

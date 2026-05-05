@@ -67,16 +67,16 @@ type ServiceScore struct {
 
 // ScanScore agrège le score global d'un scan plus le détail par service.
 type ScanScore struct {
-	Score               int              `json:"score"`
-	Grade               Grade            `json:"grade"`
-	Label               string           `json:"label"`
-	Counts              map[Severity]int `json:"counts"`
-	TotalFail           int              `json:"total_fail"`
-	TotalPass           int              `json:"total_pass"`
-	TotalError          int              `json:"total_error"`
-	TotalChecks         int              `json:"total_checks"`
-	Services            []ServiceScore   `json:"services"`
-	CriticalCapApplied  bool             `json:"critical_cap_applied"`
+	Score              int              `json:"score"`
+	Grade              Grade            `json:"grade"`
+	Label              string           `json:"label"`
+	Counts             map[Severity]int `json:"counts"`
+	TotalFail          int              `json:"total_fail"`
+	TotalPass          int              `json:"total_pass"`
+	TotalError         int              `json:"total_error"`
+	TotalChecks        int              `json:"total_checks"`
+	Services           []ServiceScore   `json:"services"`
+	CriticalCapApplied bool             `json:"critical_cap_applied"`
 }
 
 // PassRate retourne le taux de passage (0-100) arrondi à une décimale.

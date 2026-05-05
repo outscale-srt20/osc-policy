@@ -17,9 +17,9 @@ type Config struct {
 }
 
 type OutscaleConfig struct {
-	Region       string `mapstructure:"region"`
-	AccessKeyID  string `mapstructure:"access_key_id"`
-	SecretKeyID  string `mapstructure:"secret_key_id"`
+	Region      string `mapstructure:"region"`
+	AccessKeyID string `mapstructure:"access_key_id"`
+	SecretKeyID string `mapstructure:"secret_key_id"`
 }
 
 type ScanConfig struct {

@@ -10,13 +10,23 @@ import (
 // OSCProfile représente une entrée du fichier ~/.osc/config.json (format
 // partagé avec osc-cli et le provider Terraform Outscale).
 type OSCProfile struct {
-	AccessKey string `json:"access_key"`
-	SecretKey string `json:"secret_key"`
-	Region    string `json:"region"`
-	Host      string `json:"host"`
-	Protocol  string `json:"protocol"`
-	HTTPS     *bool  `json:"https,omitempty"`
-	Method    string `json:"method,omitempty"`
+	AccessKey  string `json:"access_key"`
+	SecretKey  string `json:"secret_key"`
+	Region     string `json:"region"`
+	RegionName string `json:"region_name"` // alias utilisé par osc-cli
+	Host       string `json:"host"`
+	Protocol   string `json:"protocol"`
+	HTTPS      *bool  `json:"https,omitempty"`
+	Method     string `json:"method,omitempty"`
+}
+
+// effectiveRegion retourne la région à utiliser : "region" en priorité,
+// puis "region_name" (alias osc-cli), puis "" si aucun des deux n'est défini.
+func (p OSCProfile) effectiveRegion() string {
+	if p.Region != "" {
+		return p.Region
+	}
+	return p.RegionName
 }
 
 // oscConfigPath retourne le chemin du fichier de config Outscale.
@@ -85,7 +95,7 @@ func NewClientFromProfile(prof OSCProfile) (*Client, error) {
 	if prof.AccessKey == "" || prof.SecretKey == "" {
 		return nil, fmt.Errorf("profil sans access_key/secret_key")
 	}
-	region := prof.Region
+	region := prof.effectiveRegion()
 	if region == "" {
 		region = "eu-west-2"
 	}

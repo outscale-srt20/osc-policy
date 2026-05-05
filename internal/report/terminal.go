@@ -728,7 +728,6 @@ func writeSummary(w io.Writer, r ScanResult) {
 	fmt.Fprintln(w, sep)
 }
 
-
 // writeImmediateActions affiche en tête de rapport les 3 findings les plus
 // critiques avec une commande de remédiation copy-pastable, pour donner à
 // l'utilisateur une porte d'entrée actionnable plutôt qu'un mur de findings.

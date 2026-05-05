@@ -32,9 +32,9 @@ type Collector interface {
 
 // Client wrapper.
 type Client struct {
-	API    *osc.APIClient
+	API     *osc.APIClient
 	AuthCtx context.Context
-	Region string
+	Region  string
 }
 
 // NewClient crée un client Outscale.
@@ -75,7 +75,7 @@ func NewClient(region, accessKey, secretKey, profileName string) (*Client, error
 				secretKey = prof.SecretKey
 			}
 			if region == "" {
-				region = prof.Region
+				region = prof.effectiveRegion()
 			}
 			host = prof.Host
 		}
