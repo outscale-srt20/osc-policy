@@ -84,7 +84,7 @@ release:
 
     Via [mise](https://mise.jdx.dev/) :
     ```bash
-    mise use --global ubi:outscale-srt20/osc-policy@{{ .Tag }}
+    mise use --global github:outscale-srt20/osc-policy@{{ .Tag }}
     ```
 
     Téléchargement direct (Linux x86_64) :

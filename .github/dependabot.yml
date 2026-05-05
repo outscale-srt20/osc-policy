@@ -20,6 +20,9 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
         # re-enable after 3 days via manual PR review
+      # OPA 1.16+ requires Go 1.25 — hold until we upgrade the toolchain
+      - dependency-name: "github.com/open-policy-agent/opa"
+        versions: [">=1.16"]
     groups:
       aws-sdk:
         patterns:

@@ -6,8 +6,8 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"text/tabwriter"
 
-	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 
 	"github.com/outscale-srt20/osc-policy/internal/docgen"
@@ -63,14 +63,13 @@ func rulesListCmd() *cobra.Command {
 			case "markdown":
 				return docgen.WriteIndex(os.Stdout, rules)
 			default:
-				table := tablewriter.NewWriter(os.Stdout)
-				table.SetHeader([]string{"ID", "SEVERITY", "CATEGORY", "TITLE"})
-				table.SetBorder(false)
-				table.SetAutoWrapText(false)
+				w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
+				_, _ = fmt.Fprintln(w, "ID\tSEVERITY\tCATEGORY\tTITLE")
+				_, _ = fmt.Fprintln(w, "──\t────────\t────────\t─────")
 				for _, r := range rules {
-					table.Append([]string{r.ID, r.Severity, r.Category, r.Title})
+					_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", r.ID, r.Severity, r.Category, r.Title)
 				}
-				table.Render()
+				_ = w.Flush()
 				fmt.Printf("\nTotal: %d règles\n", len(rules))
 			}
 			return nil

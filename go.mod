@@ -9,7 +9,6 @@ require (
 	github.com/aws/smithy-go v1.25.1
 	github.com/charmbracelet/lipgloss v1.1.0
 	github.com/muesli/termenv v0.16.0
-	github.com/olekukonko/tablewriter v0.0.5
 	github.com/open-policy-agent/opa v1.9.0
 	github.com/outscale/osc-sdk-go/v2 v2.24.0
 	github.com/schollz/progressbar/v3 v3.19.0

@@ -26,8 +26,8 @@ func CheckLatest(ctx context.Context) *CheckResult {
 	if os.Getenv("OSC_POLICY_NO_UPDATE_CHECK") == "1" {
 		return nil
 	}
-	// Ignorer les builds de développement.
-	if Version == "dev" || Version == "" {
+	// Ignorer les builds de développement ou locaux (dirty).
+	if Version == "dev" || Version == "" || strings.Contains(Version, "+") {
 		return nil
 	}
 
