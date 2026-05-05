@@ -1,0 +1,17 @@
+# TruffleHog exclusions
+#
+# These files are part of a *secret detector*. They contain regex patterns
+# (AKIA[0-9A-Z]{16}, BEGIN PRIVATE KEY, password=) and test fixtures that
+# trigger our own detection rule on purpose. None are real credentials.
+#
+# All test fixtures use obvious placeholders ("REPLACEME", "EXAMPLE",
+# "test-fixture", "replace-me") that fail any verifier check.
+
+policies/security/outscale_vm_008.rego
+policies/security/outscale_vm_008_test.rego
+
+# Generated artifact directories (not committed but kept here for safety
+# in case someone accidentally adds them).
+reports/
+*.snapshot.json
+.osc-policy-ignore

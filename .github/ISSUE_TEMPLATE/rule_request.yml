@@ -1,0 +1,62 @@
+name: 📜 New rule request
+description: Proposer une nouvelle règle Rego
+labels: [enhancement, rule]
+body:
+  - type: input
+    id: rule_id
+    attributes:
+      label: ID proposé
+      description: "Format OSC-<RESOURCE>-NNN (ex: OSC-OOS-007)"
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: Titre court
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Sévérité proposée
+      options: [CRITICAL, HIGH, MEDIUM, LOW]
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Catégorie
+      options: [security, finops, compliance]
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description du problème détecté
+    validations:
+      required: true
+
+  - type: textarea
+    id: noncompliant
+    attributes:
+      label: Exemple non-conforme
+      render: hcl
+    validations:
+      required: true
+
+  - type: textarea
+    id: compliant
+    attributes:
+      label: Exemple conforme
+      render: hcl
+
+  - type: textarea
+    id: compliance
+    attributes:
+      label: Frameworks de conformité couverts
+      description: "ANSSI-BP-028 / SecNumCloud 3.2 / CIS Controls v8 / ISO 27001:2022 / ISO 27017"
+      placeholder: "ANSSI-BP-028 R12, SecNumCloud 3.2 §12.1"

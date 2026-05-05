@@ -1,0 +1,25 @@
+name: sbom
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Anchore SBOM Action (Syft)
+        uses: anchore/sbom-action@v0
+        with:
+          format: spdx-json
+          output-file: osc-policy.spdx.json
+          artifact-name: osc-policy.spdx.json
+          upload-artifact: true
+          upload-release-assets: ${{ github.event_name == 'release' }}

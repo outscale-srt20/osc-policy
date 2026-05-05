@@ -1,0 +1,73 @@
+# GitLab CI snippet for osc-policy.
+# Fails the pipeline on CRITICAL/HIGH findings + uploads SARIF for GitLab
+# Code Quality + JUnit for the Tests tab.
+#
+# Place at the root of your project (.gitlab-ci.yml) or include via:
+#   include:
+#     - project: '<your-org>/osc-policy'
+#       file: '/integrations/gitlab-ci.yml'
+
+stages:
+  - validate
+
+variables:
+  TF_PLAN_FILE: plan.out
+  TF_PLAN_JSON: plan.json
+
+# Reusable job template
+.osc-policy:
+  image:
+    name: <registry>/osc-policy:latest    # build the image once and pin
+    entrypoint: [""]
+  variables:
+    OSC_POLICY_SEVERITY: HIGH
+  before_script:
+    - osc-policy version
+
+osc-policy-plan:
+  extends: .osc-policy
+  stage: validate
+  needs:
+    - job: terraform-plan          # adapt to your terraform job name
+      artifacts: true
+  script:
+    # Required: a terraform plan in JSON format
+    - test -f $TF_PLAN_JSON || (terraform show -json $TF_PLAN_FILE > $TF_PLAN_JSON)
+    # Run scan, fail on HIGH+, produce SARIF + JUnit
+    - osc-policy scan plan $TF_PLAN_JSON
+        --severity $OSC_POLICY_SEVERITY
+        --output sarif --output-file osc-policy.sarif
+    - osc-policy scan plan $TF_PLAN_JSON
+        --severity $OSC_POLICY_SEVERITY
+        --output junit --output-file osc-policy.junit.xml
+  artifacts:
+    when: always
+    expire_in: 1 week
+    reports:
+      junit: osc-policy.junit.xml
+      sast: osc-policy.sarif
+    paths:
+      - osc-policy.sarif
+      - osc-policy.junit.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Optional: live scan on a schedule (nightly), to detect drift outside IaC
+osc-policy-live-nightly:
+  extends: .osc-policy
+  stage: validate
+  variables:
+    OSC_ACCESS_KEY: $OSC_ACCESS_KEY     # set as protected CI/CD variables
+    OSC_SECRET_KEY: $OSC_SECRET_KEY
+  script:
+    - osc-policy scan live --severity LOW --output html --output-file scan-live.html
+    - osc-policy scan live --severity LOW --output json --output-file scan-live.json
+  artifacts:
+    when: always
+    expire_in: 1 month
+    paths:
+      - scan-live.html
+      - scan-live.json
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"

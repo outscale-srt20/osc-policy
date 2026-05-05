@@ -1,0 +1,60 @@
+name: 🐛 Bug report
+description: Signaler un comportement inattendu d'osc-policy
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de signaler ce bug. Pour une **vulnérabilité de sécurité**,
+        merci de suivre la procédure dans [SECURITY.md](../blob/main/SECURITY.md)
+        plutôt que d'ouvrir une issue publique.
+
+  - type: input
+    id: version
+    attributes:
+      label: Version d'osc-policy
+      description: "Sortie de `osc-policy version`"
+      placeholder: "v1.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: OS / Architecture
+      placeholder: "Linux x86_64 (Debian 12) / macOS arm64"
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Commande exécutée
+      description: "Commande complète + flags (sans access keys)"
+      placeholder: |
+        osc-policy scan live --collectors oks --severity HIGH
+      render: bash
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportement attendu
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportement observé
+      description: "Coller la sortie. Masquer toute donnée sensible."
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Contexte additionnel
+      description: "Logs, snapshot JSON anonymisé, etc."

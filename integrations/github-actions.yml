@@ -1,0 +1,119 @@
+# GitHub Actions workflow snippet for osc-policy.
+# Fails the PR on CRITICAL/HIGH findings + uploads SARIF to GitHub Code Scanning
+# + JUnit for the Checks tab.
+#
+# Save as .github/workflows/osc-policy.yml in your Terraform repository.
+
+name: osc-policy
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - '**.tf'
+      - '**.tfvars'
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: '0 2 * * 1'    # weekly live scan on Monday at 02:00 UTC
+
+permissions:
+  contents: read
+  security-events: write    # required to upload SARIF
+
+env:
+  OSC_POLICY_VERSION: latest
+  OSC_POLICY_SEVERITY: HIGH
+
+jobs:
+  plan-scan:
+    name: Terraform plan scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install osc-policy
+        run: |
+          curl -sSfL https://github.com/outscale-srt20/osc-policy/releases/latest/download/osc-policy_linux_amd64.tar.gz \
+            | tar -xz -C /usr/local/bin osc-policy
+          osc-policy version
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        run: terraform init -backend=false
+        env:
+          TF_CLI_ARGS: "-no-color"
+
+      - name: Terraform plan
+        run: |
+          terraform plan -out=plan.out -no-color
+          terraform show -json plan.out > plan.json
+        env:
+          OSC_ACCESS_KEY: ${{ secrets.OSC_ACCESS_KEY }}
+          OSC_SECRET_KEY: ${{ secrets.OSC_SECRET_KEY }}
+
+      - name: osc-policy scan (SARIF)
+        run: |
+          osc-policy scan plan plan.json \
+            --severity ${{ env.OSC_POLICY_SEVERITY }} \
+            --output sarif \
+            --output-file osc-policy.sarif
+
+      - name: Upload SARIF to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: osc-policy.sarif
+          category: osc-policy
+
+      - name: osc-policy scan (JUnit — PR annotations)
+        if: always()
+        run: |
+          osc-policy scan plan plan.json \
+            --severity ${{ env.OSC_POLICY_SEVERITY }} \
+            --output junit \
+            --output-file osc-policy.junit.xml
+
+      - name: Upload JUnit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: osc-policy-junit
+          path: osc-policy.junit.xml
+          retention-days: 7
+
+  live-scan:
+    name: Live scan (weekly)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install osc-policy
+        run: |
+          curl -sSfL https://github.com/outscale-srt20/osc-policy/releases/latest/download/osc-policy_linux_amd64.tar.gz \
+            | tar -xz -C /usr/local/bin osc-policy
+          osc-policy version
+
+      - name: osc-policy live scan
+        run: |
+          osc-policy scan live --severity LOW \
+            --output html --output-file scan-live.html
+          osc-policy scan live --severity LOW \
+            --output json --output-file scan-live.json
+        env:
+          OSC_ACCESS_KEY: ${{ secrets.OSC_ACCESS_KEY }}
+          OSC_SECRET_KEY: ${{ secrets.OSC_SECRET_KEY }}
+
+      - name: Upload live scan reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: osc-policy-live-${{ github.run_id }}
+          path: |
+            scan-live.html
+            scan-live.json
+          retention-days: 30

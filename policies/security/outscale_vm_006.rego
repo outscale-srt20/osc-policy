@@ -1,0 +1,63 @@
+# METADATA
+# id: OSC-VM-006
+# title: vm_type non dans la liste approuvée
+# description: |
+#   La gamme de VMs permise (approved_vm_types) est définie pour respecter la
+#   stratégie FinOps et capacity planning. Une VM hors gamme peut tromper les
+#   prévisions de coût.
+# severity: MEDIUM
+# category: security
+# profile: security
+# resource_types:
+#   - outscale_vm
+# source: plan,live
+# remediation: |
+#   Choisir un vm_type dans la liste autorisée définie par l'équipe Platform.
+# noncompliant_example: |
+#   resource "outscale_vm" "vm" {
+#     vm_type = "tinav4.c1r1p2"
+#   }
+# compliant_example: |
+#   resource "outscale_vm" "vm" {
+#     vm_type = "tinav5.c2r4p1"
+#   }
+# references: []
+# compliance:
+#   anssi_bp_028: ["R37"]
+#   secnumcloud_3_2: ["20.1"]
+#   cis_controls_v8: ["2.3", "4.8"]
+#   iso_27001_2022: ["A.8.9"]
+package security.outscale.vm_006
+
+import rego.v1
+import data.lib.modules
+
+# Types approuvés — pourra être redéfini par override dans un fichier custom.
+approved_types := {
+    "tinav5.c1r1p1", "tinav5.c2r4p1", "tinav5.c4r8p1", "tinav5.c4r16p1",
+    "tinav5.c8r16p1", "tinav5.c8r32p1", "tinav5.c16r32p1", "tinav5.c16r64p1",
+}
+
+deny contains msg if {
+    some r in all_vms
+    t := r.values.vm_type
+    t != ""
+    not t in approved_types
+    msg := json.marshal({
+        "rule_id": "OSC-VM-006",
+        "rule_title": "vm_type non approuvé",
+        "severity": "MEDIUM",
+        "category": "security",
+        "resource_id": object.get(r, "id", r.address),
+        "resource_type": r.type,
+        "resource_address": r.address,
+        "message": sprintf("vm_type '%v' hors liste approuvée", [t]),
+        "remediation": "Utiliser un vm_type de la gamme tinav5 approuvée.",
+    })
+}
+
+all_vms := out if {
+    plan := [r | some r in modules.all_resources; r.type == "outscale_vm"]
+    live := [r | some r in modules.live_resources; r.type == "outscale_vm"]
+    out := array.concat(plan, live)
+}

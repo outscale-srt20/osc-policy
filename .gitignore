@@ -1,0 +1,27 @@
+# Binary
+osc-policy
+osc-policy-*
+
+# Build artifacts
+dist/
+*.test
+*.out
+*.cover
+coverage.out
+
+# Editor / OS
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+
+# Generated reports / snapshots
+reports/
+*.snapshot.json
+.osc-policy-ignore
+osc-policy.spdx.json
+
+# GoReleaser local artifacts
+dist/
+.osc-policy.yaml

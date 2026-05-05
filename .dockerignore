@@ -1,0 +1,15 @@
+.git/
+osc-policy
+osc-policy-*
+dist/
+docs/
+*.test
+*.out
+coverage.out
+.osc-policy.yaml
+.osc-policy-ignore
+reports/
+*.snapshot.json
+.DS_Store
+.vscode/
+.idea/

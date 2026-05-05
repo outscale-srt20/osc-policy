@@ -1,0 +1,34 @@
+# .osc-policy.yaml — exemple de configuration
+
+outscale:
+  # Deux régions tarifées par le catalogue embarqué :
+  #   - eu-west-2            (Paris, commercial)
+  #   - cloudgouv-eu-west-1  (Paris, SecNumCloud — tarifs ~ +25 %)
+  region: eu-west-2
+  # access_key_id: ...
+  # secret_key_id: ...
+
+scan:
+  profile: all
+  min_severity: LOW
+  fail_on: HIGH
+  # Grade minimal requis (A-G). Laisser vide pour désactiver. En dessous du
+  # seuil, exit 1 (combiné par OU avec fail_on).
+  min_grade: ""
+  output: terminal
+  skip_rules: []
+  # tag_filter:
+  #   Env: prod
+
+policies:
+  extra_dir: ""  # ex: ./my-policies
+
+finops:
+  monthly_budget: 0
+  cost_estimation: true
+  prices_file: ""
+
+docs:
+  output_dir: ./docs/rules
+  format: markdown
+  lang: fr

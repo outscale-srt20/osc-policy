@@ -1,0 +1,97 @@
+version: 2
+
+project_name: osc-policy
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: osc-policy
+    main: ./
+    binary: osc-policy
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X github.com/outscale-srt20/osc-policy/version.Version={{.Version}}
+      - -X github.com/outscale-srt20/osc-policy/version.Commit={{.Commit}}
+      - -X github.com/outscale-srt20/osc-policy/version.Date={{.Date}}
+
+archives:
+  - id: default
+    builds: [osc-policy]
+    # Naming convention compatible with mise/ubi:
+    #   osc-policy_<version>_<os>_<arch>.tar.gz
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- if eq .Os "darwin" }}macos
+      {{- else }}{{ .Os }}{{ end }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE*
+      - README.md
+      - SECURITY.md
+      - CHANGELOG.md
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: git
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - Merge pull request
+      - Merge branch
+
+# SBOM (recommandé pour SecNumCloud / supply chain)
+sboms:
+  - artifacts: archive
+
+release:
+  draft: false
+  prerelease: auto
+  header: |
+    ## osc-policy {{ .Tag }}
+
+    Scanner policy-as-code Outscale (security + finops + compliance).
+
+    ### Installation
+
+    Via [mise](https://mise.jdx.dev/) :
+    ```bash
+    mise use --global ubi:outscale-srt20/osc-policy@{{ .Tag }}
+    ```
+
+    Téléchargement direct (Linux x86_64) :
+    ```bash
+    curl -sSfL https://github.com/outscale-srt20/osc-policy/releases/download/{{ .Tag }}/osc-policy_{{ trimprefix .Tag "v" }}_linux_x86_64.tar.gz | tar -xz
+    ./osc-policy version
+    ```
+  footer: |
+    **Vérification d'intégrité** : `sha256sum -c checksums.txt`
+    **SBOM** : disponible en pièce jointe pour audit supply chain.

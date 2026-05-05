@@ -1,0 +1,76 @@
+# catalog/prices.yaml
+# Catalogue de prix Outscale par région — estimations à rapprocher de la grille
+# officielle publique : https://en.outscale.com/pricing/
+#
+# Deux régions couvertes par défaut :
+#   - eu-west-2            : région commerciale France (Paris)
+#   - cloudgouv-eu-west-1  : région souveraine SecNumCloud (Paris)
+#
+# Les tarifs SecNumCloud sont estimés avec un uplift d'environ +25 % par rapport
+# à eu-west-2 (VMs/volumes/services réseau). Valeurs à ajuster selon le devis
+# contractuel de votre compte Outscale.
+
+default_region: eu-west-2
+
+# Seuils FinOps communs à toutes les régions
+thresholds:
+  vm_monthly_warn:  150.0   # €/mois — seuil d'alerte coût mensuel VM
+  volume_size_warn: 500     # Go — seuil d'alerte taille volume
+  cpu_rightsizing:  10.0    # % — CPU moyen 7j sous lequel la VM est candidate au rightsizing
+  mem_rightsizing:  30.0    # % — RAM moyenne 7j
+
+regions:
+
+  # --- Région commerciale eu-west-2 (Paris) ----------------------------------
+  eu-west-2:
+    currency: EUR
+    vm_per_hour:
+      tinav4.c1r1p2:   0.011
+      tinav4.c2r2p2:   0.022
+      tinav4.c2r4p2:   0.044
+      tinav4.c4r8p2:   0.088
+      tinav4.c8r16p2:  0.176
+      tinav4.c16r32p2: 0.352
+      tinav5.c1r1p1:   0.010
+      tinav5.c2r4p1:   0.040
+      tinav5.c4r8p1:   0.080
+      tinav5.c4r16p1:  0.132
+      tinav5.c8r16p1:  0.160
+      tinav5.c8r32p1:  0.264
+      tinav5.c16r32p1: 0.320
+      tinav5.c16r64p1: 0.528
+    volume_per_gb_month:
+      gp2:      0.044
+      io1:      0.088
+      standard: 0.033
+    eip_per_month: 3.60
+    lbu_per_month: 18.00
+    nat_per_month: 30.00
+    vpn_per_month: 36.00
+
+  # --- Région souveraine cloudgouv-eu-west-1 (SecNumCloud, Paris) ------------
+  cloudgouv-eu-west-1:
+    currency: EUR
+    vm_per_hour:
+      tinav4.c1r1p2:   0.014
+      tinav4.c2r2p2:   0.028
+      tinav4.c2r4p2:   0.055
+      tinav4.c4r8p2:   0.110
+      tinav4.c8r16p2:  0.220
+      tinav4.c16r32p2: 0.440
+      tinav5.c1r1p1:   0.013
+      tinav5.c2r4p1:   0.050
+      tinav5.c4r8p1:   0.100
+      tinav5.c4r16p1:  0.165
+      tinav5.c8r16p1:  0.200
+      tinav5.c8r32p1:  0.330
+      tinav5.c16r32p1: 0.400
+      tinav5.c16r64p1: 0.660
+    volume_per_gb_month:
+      gp2:      0.055
+      io1:      0.110
+      standard: 0.041
+    eip_per_month: 4.50
+    lbu_per_month: 22.50
+    nat_per_month: 37.50
+    vpn_per_month: 45.00
