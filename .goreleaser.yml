@@ -26,7 +26,7 @@ builds:
       - -s -w
       - -X github.com/outscale-srt20/osc-policy/version.Version={{.Version}}
       - -X github.com/outscale-srt20/osc-policy/version.Commit={{.Commit}}
-      - -X github.com/outscale-srt20/osc-policy/version.Date={{.Date}}
+      - -X github.com/outscale-srt20/osc-policy/version.BuildDate={{.Date}}
 
 archives:
   - id: default

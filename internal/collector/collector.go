@@ -3,6 +3,7 @@ package collector
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 
 	osc "github.com/outscale/osc-sdk-go/v2"
@@ -108,6 +109,7 @@ func oscConfig(region, host string) *osc.Configuration {
 }
 
 func oscNewAPIClient(cfg *osc.Configuration) *osc.APIClient {
+	cfg.HTTPClient = &http.Client{Transport: newRetryTransport()}
 	return osc.NewAPIClient(cfg)
 }
 

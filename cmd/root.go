@@ -1,6 +1,10 @@
 package cmd
 
 import (
+	"context"
+	"fmt"
+	"os"
+
 	"github.com/spf13/cobra"
 
 	"github.com/outscale-srt20/osc-policy/internal/config"
@@ -25,6 +29,9 @@ type GlobalFlags struct {
 
 var gflags = &GlobalFlags{}
 
+// updateCh reçoit le résultat du check de mise à jour (lancé en goroutine).
+var updateCh = make(chan *version.CheckResult, 1)
+
 var rootCmd = &cobra.Command{
 	Use:   "osc-policy",
 	Short: "Scanner de sécurité et FinOps pour Outscale",
@@ -35,6 +42,18 @@ Rego évaluées par le moteur OPA embarqué.`,
 	Version:       version.Version,
 	SilenceErrors: true,
 	SilenceUsage:  true,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		go func() {
+			updateCh <- version.CheckLatest(context.Background())
+		}()
+	},
+	PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		result := <-updateCh
+		if result != nil && result.Newer {
+			fmt.Fprintf(os.Stderr, "\n⚡ Nouvelle version disponible : v%s (actuelle : v%s)\n", result.Latest, result.Current)
+			fmt.Fprintf(os.Stderr, "   mise use --global ubi:outscale-srt20/osc-policy@v%s\n\n", result.Latest)
+		}
+	},
 }
 
 // Execute exécute la commande racine.
