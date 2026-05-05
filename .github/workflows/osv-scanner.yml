@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '23 4 * * 1'
 
+concurrency:
+  group: osv-scanner-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   security-events: write
@@ -15,9 +19,13 @@ permissions:
 
 jobs:
   scan:
-    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v1.9.0
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@v2.0.2
     with:
       scan-args: |-
         --recursive
         --skip-git
         ./
+    permissions:
+      contents: read
+      security-events: write
+      actions: read

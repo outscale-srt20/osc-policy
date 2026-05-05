@@ -14,6 +14,12 @@ updates:
     commit-message:
       prefix: "chore(deps)"
       include: scope
+    # Cooldown proxy: ignore patch updates for 3 days, minor for 7 days
+    # to reduce supply-chain attack surface from compromised releases.
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+        # re-enable after 3 days via manual PR review
     groups:
       aws-sdk:
         patterns:
@@ -39,3 +45,7 @@ updates:
       - github-actions
     commit-message:
       prefix: "chore(ci)"
+    # Cooldown proxy: ignore patch updates for actions — only take minor/major
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]

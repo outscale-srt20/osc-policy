@@ -12,6 +12,6 @@ policies/security/outscale_vm_008_test.rego
 
 # Generated artifact directories (not committed but kept here for safety
 # in case someone accidentally adds them).
-reports/
-*.snapshot.json
-.osc-policy-ignore
+reports/.*
+.*\.snapshot\.json
+\.osc-policy-ignore

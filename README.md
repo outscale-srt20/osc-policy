@@ -1,5 +1,12 @@
 # osc-policy
 
+[![CI](https://github.com/outscale-srt20/osc-policy/actions/workflows/ci.yml/badge.svg)](https://github.com/outscale-srt20/osc-policy/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/outscale-srt20/osc-policy/actions/workflows/codeql.yml/badge.svg)](https://github.com/outscale-srt20/osc-policy/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/outscale-srt20/osc-policy/badge)](https://scorecard.dev/viewer/?uri=github.com/outscale-srt20/osc-policy)
+[![Go Report Card](https://goreportcard.com/badge/github.com/outscale-srt20/osc-policy)](https://goreportcard.com/report/github.com/outscale-srt20/osc-policy)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/outscale-srt20/osc-policy)](https://github.com/outscale-srt20/osc-policy/releases/latest)
+
 > Scanner **policy-as-code** de sécurité, conformité et FinOps pour
 > [Outscale](https://outscale.com/). Analyse les **plans Terraform** avant
 > déploiement et les **ressources live** via l'API Outscale après coup.
