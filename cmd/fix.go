@@ -74,7 +74,7 @@ var remediationTemplates = map[string]remediationTemplate{
 		Format: "bash",
 		Body: `# 1. Créer une nouvelle clé avec expiration à 90 jours
 oapi-cli CreateAccessKey --UserName <user> \
-  --ExpirationDate $(date -u -d "+90 days" +%Y-%m-%dT%H:%M:%SZ)
+  --ExpirationDate $(date -u -d "+90 days" +%%Y-%%m-%%dT%%H:%%M:%%SZ)
 
 # 2. Migrer les usages vers la nouvelle clé.
 
