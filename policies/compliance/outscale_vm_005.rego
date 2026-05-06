@@ -1,29 +1,25 @@
 # METADATA
-# id: OSC-VM-004
-# title: VM sans tag Name
+# id: OSC-VM-005
+# title: VM sans tag Env
 # description: |
-#   Une VM sans tag Name est difficile à identifier dans la console Outscale,
-#   dans les factures et lors des audits. C'est aussi un blocage pour la
-#   gouvernance FinOps.
+#   Le tag Env (dev/staging/prod) est nécessaire pour appliquer des politiques
+#   différenciées (sauvegardes, rétention, alerting) selon l'environnement.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_vm
 # source: plan,live
 # remediation: |
-#   Ajouter un tag `Name` explicite, par ex. `{service}-{env}-{index}`.
+#   Ajouter un tag `Env` avec la valeur de l'environnement.
 # noncompliant_example: |
 #   resource "outscale_vm" "vm" {
-#     image_id = "ami-12345678"
+#     tags { key = "Name" value = "web-01" }
 #   }
 # compliant_example: |
 #   resource "outscale_vm" "vm" {
-#     image_id = "ami-12345678"
-#     tags {
-#       key   = "Name"
-#       value = "web-prod-01"
-#     }
+#     tags { key = "Name" value = "web-01" }
+#     tags { key = "Env"  value = "prod" }
 #   }
 # references: []
 # compliance:
@@ -31,7 +27,7 @@
 #   secnumcloud_3_2: ["8.1"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.9"]
-package security.outscale.vm_004
+package compliance.outscale.vm_005
 
 import rego.v1
 import data.lib.modules
@@ -39,17 +35,17 @@ import data.lib.utils
 
 deny contains msg if {
     some r in all_vms
-    not utils.has_tag(object.get(r.values, "tags", []), "Name")
+    not utils.has_tag(object.get(r.values, "tags", []), "Env")
     msg := json.marshal({
-        "rule_id": "OSC-VM-004",
-        "rule_title": "VM sans tag Name",
+        "rule_id": "OSC-VM-005",
+        "rule_title": "VM sans tag Env",
         "severity": "MEDIUM",
         "category": "security",
         "resource_id": object.get(r, "id", r.address),
         "resource_type": r.type,
         "resource_address": r.address,
-        "message": "VM sans tag Name",
-        "remediation": "Ajouter un tag Name descriptif.",
+        "message": "VM sans tag Env (dev/staging/prod)",
+        "remediation": "Ajouter un tag Env explicite.",
     })
 }
 

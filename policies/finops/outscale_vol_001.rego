@@ -6,8 +6,8 @@
 #   peut recevoir un ratio iops/size imprévisible, entraînant sur-facturation
 #   ou sous-performance.
 # severity: HIGH
-# category: security
-# profile: security
+# category: finops
+# profile: finops
 # resource_types:
 #   - outscale_volume
 # source: plan,live
@@ -19,10 +19,10 @@
 #   resource "outscale_volume" "v" { volume_type = "io1" size = 100 iops = 3000 }
 # references: []
 # compliance:
-#   secnumcloud_3_2: ["20.1"]
-#   cis_controls_v8: ["4.8"]
-#   iso_27001_2022: ["A.8.9"]
-package security.outscale.vol_001
+#   secnumcloud_3_2: ["8.2"]
+
+#   iso_27001_2022: ["A.5.10"]
+package finops.outscale.vol_001
 
 import rego.v1
 import data.lib.modules

@@ -7,8 +7,8 @@
 #   pas de scaling, pas de healing, pas de déploiement (les workloads existants
 #   continuent à tourner). À éviter en production.
 # severity: HIGH
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_oks_cluster
 # source: plan,live
@@ -27,9 +27,9 @@
 # references:
 #   - "AWS Well-Architected Reliability Pillar"
 # compliance:
-#   anssi_bp_028: ["R69"]
+#   secnumcloud_3_2: ["12.4"]
 #   iso_27001_2022: ["A.8.14"]
-package security.outscale.oks_002
+package compliance.outscale.oks_002
 
 import rego.v1
 import data.lib.modules

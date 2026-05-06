@@ -5,8 +5,8 @@
 #   Les Internet Services (gateways) sans tag Name sont difficiles à
 #   identifier dans les consoles et dans les factures.
 # severity: LOW
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_internet_service
 # source: plan,live
@@ -24,7 +24,7 @@
 #   secnumcloud_3_2: ["8.1"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.9"]
-package security.outscale.net_003
+package compliance.outscale.net_003
 
 import rego.v1
 import data.lib.modules

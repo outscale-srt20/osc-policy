@@ -5,8 +5,8 @@
 #   Les snapshots sans tag Name sont difficiles à associer à leur volume
 #   source lors d'une restauration.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_snapshot
 # source: plan,live
@@ -25,7 +25,7 @@
 #   secnumcloud_3_2: ["8.1", "18.1"]
 #   cis_controls_v8: ["1.1", "11.2"]
 #   iso_27001_2022: ["A.5.9", "A.8.13"]
-package security.outscale.snap_002
+package compliance.outscale.snap_002
 
 import rego.v1
 import data.lib.modules

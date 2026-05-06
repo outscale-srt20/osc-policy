@@ -5,8 +5,8 @@
 #   Un security group sans description rend l'audit et la gouvernance difficiles.
 #   Documentez la raison d'être du groupe pour aider la revue de sécurité.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_security_group
 # source: plan,live
@@ -26,9 +26,9 @@
 # compliance:
 #   anssi_bp_028: ["R1"]
 #   secnumcloud_3_2: ["8.1"]
-#   cis_controls_v8: ["1.1", "12.4"]
-#   iso_27001_2022: ["A.5.9", "A.8.9"]
-package security.outscale.sg_005
+#   cis_controls_v8: ["1.1"]
+#   iso_27001_2022: ["A.5.9"]
+package compliance.outscale.sg_005
 
 import rego.v1
 import data.lib.modules

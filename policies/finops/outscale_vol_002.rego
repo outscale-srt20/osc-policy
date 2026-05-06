@@ -5,8 +5,8 @@
 #   Le type standard (magnétique) est déprécié et offre de faibles performances.
 #   Préférer gp2 (SSD général) ou io1 (SSD provisioned IOPS).
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: finops
+# profile: finops
 # resource_types:
 #   - outscale_volume
 # source: plan,live
@@ -18,11 +18,11 @@
 #   resource "outscale_volume" "v" { volume_type = "gp2" size = 100 }
 # references: []
 # compliance:
-#   anssi_bp_028: ["R37", "R40"]
-#   secnumcloud_3_2: ["20.1"]
-#   cis_controls_v8: ["2.3", "4.8"]
-#   iso_27001_2022: ["A.8.9"]
-package security.outscale.vol_002
+
+#   secnumcloud_3_2: ["8.2"]
+
+#   iso_27001_2022: ["A.5.10"]
+package finops.outscale.vol_002
 
 import rego.v1
 import data.lib.modules

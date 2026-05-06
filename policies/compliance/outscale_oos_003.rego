@@ -5,8 +5,8 @@
 #   Pas de tag Name → difficile d'identifier l'usage du bucket lors des audits
 #   de facturation.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_oos
 # source: live
@@ -22,7 +22,7 @@
 #   secnumcloud_3_2: ["8.1"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.9"]
-package security.outscale.oos_003
+package compliance.outscale.oos_003
 
 import rego.v1
 import data.lib.modules

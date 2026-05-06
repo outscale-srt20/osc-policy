@@ -6,8 +6,8 @@
 #   sous-région. Si l'AZ tombe, le control plane est indisponible. Pour
 #   production, activer cp_multi_az.
 # severity: HIGH
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_oks_cluster
 # source: plan,live
@@ -23,8 +23,9 @@
 #     cp_multi_az = true
 #   }
 # compliance:
+#   secnumcloud_3_2: ["12.4"]
 #   iso_27001_2022: ["A.8.14"]
-package security.outscale.oks_003
+package compliance.outscale.oks_003
 
 import rego.v1
 import data.lib.modules

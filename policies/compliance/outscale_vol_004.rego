@@ -5,8 +5,8 @@
 #   Un volume BSU sans tag Name est difficile à identifier lors d'un audit
 #   ou d'un nettoyage.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_volume
 # source: plan,live
@@ -22,7 +22,7 @@
 #   secnumcloud_3_2: ["8.1"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.9"]
-package security.outscale.vol_004
+package compliance.outscale.vol_004
 
 import rego.v1
 import data.lib.modules
