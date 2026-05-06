@@ -2,7 +2,7 @@ package compliance.outscale.oks_003_test
 
 import rego.v1
 
-import data.security.outscale.oks_003
+import data.compliance.outscale.oks_003
 
 test_prod_cluster_mono_az_fails if {
     count(oks_003.deny) > 0 with input as {
