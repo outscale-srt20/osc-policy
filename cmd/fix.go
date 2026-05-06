@@ -74,7 +74,7 @@ var remediationTemplates = map[string]remediationTemplate{
 		Format: "bash",
 		Body: `# 1. Créer une nouvelle clé avec expiration à 90 jours
 oapi-cli CreateAccessKey --UserName <user> \
-  --ExpirationDate $(date -u -d "+90 days" +%Y-%m-%dT%H:%M:%SZ)
+  --ExpirationDate $(date -u -d "+90 days" +%%Y-%%m-%%dT%%H:%%M:%%SZ)
 
 # 2. Migrer les usages vers la nouvelle clé.
 
@@ -107,23 +107,26 @@ resource "outscale_security_group_rule" "ssh_via_bastion" {
 		Body: `resource "outscale_security_group_rule" "specific" {
   flow              = "Inbound"
   security_group_id = "%s"
-  from_port_range   = 443     # port précis
-  to_port_range     = 443
-  ip_protocol       = "tcp"   # protocole précis
-  ip_range          = "10.0.0.0/16"  # source précise
+  rules {
+    from_port_range = "443"   # port précis
+    to_port_range   = "443"
+    ip_protocol     = "tcp"   # protocole précis
+    ip_range        = "10.0.0.0/16"  # source précise
+  }
 }
 `,
 	},
 	"OSC-OKS-001": {
 		Title:  "Restreindre admin_whitelist du cluster OKS",
-		Format: "bash",
-		Body: `# Mettre à jour la whitelist du cluster (depuis oks-cli) :
-oks-cli cluster update -c %s -a "<bastion-ip>/32,<ci-runner-ip>/32"
-
-# Ou via Terraform :
-#   resource "outscale_oks_cluster" "c" {
-#     admin_whitelist = ["<bastion-ip>/32", "<ci-runner-ip>/32"]
-#   }
+		Format: "hcl",
+		Body: `# Remplacer 0.0.0.0/0 par les CIDRs légitimes (bastion, runners CI) :
+resource "outscale_oks_cluster" "%s" {
+  # ...
+  admin_whitelist = [
+    "<bastion-ip>/32",
+    "<ci-runner-ip>/32",
+  ]
+}
 `,
 	},
 	"OSC-OKS-002": {
@@ -144,8 +147,10 @@ resource "outscale_oks_cluster" "c" {
 	"OSC-OOS-001": {
 		Title:  "Rendre le bucket OOS privé",
 		Format: "bash",
-		Body: `aws s3api put-bucket-acl \
-  --endpoint-url https://oos.eu-west-2.outscale.com \
+		Body: `# Adapter OOS_ENDPOINT à votre région (ex: oos.eu-west-2.outscale.com)
+OOS_ENDPOINT="https://oos.<region>.outscale.com"
+aws s3api put-bucket-acl \
+  --endpoint-url "$OOS_ENDPOINT" \
   --bucket %s \
   --acl private
 `,
@@ -153,8 +158,10 @@ resource "outscale_oks_cluster" "c" {
 	"OSC-OOS-002": {
 		Title:  "Activer le versioning sur le bucket",
 		Format: "bash",
-		Body: `aws s3api put-bucket-versioning \
-  --endpoint-url https://oos.eu-west-2.outscale.com \
+		Body: `# Adapter OOS_ENDPOINT à votre région (ex: oos.eu-west-2.outscale.com)
+OOS_ENDPOINT="https://oos.<region>.outscale.com"
+aws s3api put-bucket-versioning \
+  --endpoint-url "$OOS_ENDPOINT" \
   --bucket %s \
   --versioning-configuration Status=Enabled
 `,
@@ -163,17 +170,17 @@ resource "outscale_oks_cluster" "c" {
 		Title:  "Supprimer l'EIP orpheline",
 		Format: "bash",
 		Body: `# Vérifier qu'aucun script en cours ne va l'attacher :
-oapi-cli ReadPublicIps '--Filters.PublicIpIds[]' %s
+oapi-cli ReadPublicIps --Filters.PublicIpIds.0 %s
 
 # Puis supprimer :
-oapi-cli DeletePublicIp --PublicIp <ip>  # ou --PublicIpId %s
+oapi-cli DeletePublicIp --PublicIpId %s
 `,
 	},
 	"OSC-FIN-002": {
 		Title:  "Supprimer le volume BSU détaché",
 		Format: "bash",
 		Body: `# 1. Vérifier l'état (state doit être "available", pas "in-use") :
-oapi-cli ReadVolumes '--Filters.VolumeIds[]' %s
+oapi-cli ReadVolumes --Filters.VolumeIds.0 %s
 
 # 2. Snapshot de précaution :
 oapi-cli CreateSnapshot --VolumeId %s --Description "pre-delete-$(date +%%F)"
@@ -186,7 +193,7 @@ oapi-cli DeleteVolume --VolumeId %s
 		Title:  "Supprimer la NIC orpheline",
 		Format: "bash",
 		Body: `# Confirmer absence d'usage :
-oapi-cli ReadNics '--Filters.NicIds[]' %s
+oapi-cli ReadNics --Filters.NicIds.0 %s
 
 # Supprimer :
 oapi-cli DeleteNic --NicId %s
