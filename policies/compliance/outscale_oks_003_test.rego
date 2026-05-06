@@ -1,4 +1,4 @@
-package security.outscale.oks_003_test
+package compliance.outscale.oks_003_test
 
 import rego.v1
 

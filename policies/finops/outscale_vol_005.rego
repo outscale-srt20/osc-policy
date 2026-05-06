@@ -6,8 +6,8 @@
 #   que l'équipe Platform ait approuvé explicitement la création, via un
 #   tag `large_volume_approved`.
 # severity: LOW
-# category: security
-# profile: security
+# category: finops
+# profile: finops
 # resource_types:
 #   - outscale_volume
 # source: plan,live
@@ -26,7 +26,7 @@
 #   secnumcloud_3_2: ["8.2"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.10", "A.8.9"]
-package security.outscale.vol_005
+package finops.outscale.vol_005
 
 import rego.v1
 import data.lib.modules

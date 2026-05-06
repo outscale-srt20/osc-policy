@@ -5,8 +5,8 @@
 #   Un subnet sans tag Tier (public/private/db) empêche la gouvernance
 #   des placements et le routage automatisé.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_subnet
 # source: plan,live
@@ -22,11 +22,11 @@
 #   }
 # references: []
 # compliance:
-#   anssi_bp_028: ["R1", "R66"]
-#   secnumcloud_3_2: ["8.1", "13.1"]
-#   cis_controls_v8: ["1.1", "12.4"]
-#   iso_27001_2022: ["A.5.9", "A.8.22"]
-package security.outscale.net_001
+#   anssi_bp_028: ["R1"]
+#   secnumcloud_3_2: ["8.1"]
+#   cis_controls_v8: ["1.1"]
+#   iso_27001_2022: ["A.5.9"]
+package compliance.outscale.net_001
 
 import rego.v1
 import data.lib.modules

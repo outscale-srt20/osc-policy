@@ -5,8 +5,8 @@
 #   Sans health check, le LBU continue d'envoyer du trafic à des backends
 #   défaillants, provoquant des erreurs côté client.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_load_balancer
 # source: plan,live
@@ -30,9 +30,9 @@
 #   anssi_bp_028: ["R24"]
 #   secnumcloud_3_2: ["12.4"]
 #   cis_controls_v8: ["13.1"]
-#   iso_27001_2022: ["A.8.16"]
+#   iso_27001_2022: ["A.8.14"]
 #   iso_27017: ["CLD.12.4.5"]
-package security.outscale.lbu_003
+package compliance.outscale.lbu_003
 
 import rego.v1
 import data.lib.modules

@@ -6,8 +6,8 @@
 #   stratégie FinOps et capacity planning. Une VM hors gamme peut tromper les
 #   prévisions de coût.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: finops
+# profile: finops
 # resource_types:
 #   - outscale_vm
 # source: plan,live
@@ -19,15 +19,15 @@
 #   }
 # compliant_example: |
 #   resource "outscale_vm" "vm" {
-#     vm_type = "tinav5.c2r4p1"
+#     vm_type = "tinav6.c4r8p1"
 #   }
 # references: []
 # compliance:
-#   anssi_bp_028: ["R37"]
-#   secnumcloud_3_2: ["20.1"]
-#   cis_controls_v8: ["2.3", "4.8"]
-#   iso_27001_2022: ["A.8.9"]
-package security.outscale.vm_006
+
+#   secnumcloud_3_2: ["8.2"]
+
+#   iso_27001_2022: ["A.5.10"]
+package finops.outscale.vm_006
 
 import rego.v1
 import data.lib.modules
@@ -36,6 +36,10 @@ import data.lib.modules
 approved_types := {
     "tinav5.c1r1p1", "tinav5.c2r4p1", "tinav5.c4r8p1", "tinav5.c4r16p1",
     "tinav5.c8r16p1", "tinav5.c8r32p1", "tinav5.c16r32p1", "tinav5.c16r64p1",
+    "tinav6.c1r1p1", "tinav6.c2r4p1", "tinav6.c4r8p1", "tinav6.c4r8p2",
+    "tinav6.c4r16p1", "tinav6.c4r16p2", "tinav6.c8r16p1", "tinav6.c8r16p2",
+    "tinav6.c8r32p1", "tinav6.c8r32p2", "tinav6.c16r32p1", "tinav6.c16r32p2",
+    "tinav6.c16r64p1", "tinav6.c16r64p2",
 }
 
 deny contains msg if {
@@ -52,7 +56,7 @@ deny contains msg if {
         "resource_type": r.type,
         "resource_address": r.address,
         "message": sprintf("vm_type '%v' hors liste approuvée", [t]),
-        "remediation": "Utiliser un vm_type de la gamme tinav5 approuvée.",
+        "remediation": "Utiliser un vm_type de la gamme tinav5 ou tinav6 approuvée.",
     })
 }
 

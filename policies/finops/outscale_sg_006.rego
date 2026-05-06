@@ -6,8 +6,8 @@
 #   potentiellement résidu d'un déploiement ancien. Risque: une VM future
 #   pourrait être attachée par erreur à un SG permissif oublié.
 # severity: MEDIUM
-# category: security
-# profile: security
+# category: finops
+# profile: finops
 # resource_types:
 #   - outscale_security_group
 # source: live
@@ -25,7 +25,7 @@
 #   secnumcloud_3_2: ["8.1", "8.2"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.9", "A.5.10"]
-package security.outscale.sg_006
+package finops.outscale.sg_006
 
 import rego.v1
 import data.lib.modules

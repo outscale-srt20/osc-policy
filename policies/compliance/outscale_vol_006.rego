@@ -7,8 +7,8 @@
 #   corruption, perte VM ou ransomware, données perdues au-delà du dernier
 #   snapshot.
 # severity: HIGH
-# category: security
-# profile: security
+# category: compliance
+# profile: compliance
 # resource_types:
 #   - outscale_volume
 # source: live
@@ -24,7 +24,7 @@
 #   secnumcloud_3_2: ["12.3"]
 #   cis_controls_v8: ["11.1", "11.4"]
 #   iso_27001_2022: ["A.8.13"]
-package security.outscale.vol_006
+package compliance.outscale.vol_006
 
 import rego.v1
 import data.lib.modules

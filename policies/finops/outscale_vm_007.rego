@@ -6,8 +6,8 @@
 #   des coûts de stockage BSU associés. Le tag ExpiresAt permet aux outils
 #   d'automatisation de supprimer les ressources expirées.
 # severity: LOW
-# category: security
-# profile: security
+# category: finops
+# profile: finops
 # resource_types:
 #   - outscale_vm
 # source: live
@@ -23,7 +23,7 @@
 #   secnumcloud_3_2: ["8.1", "8.2"]
 #   cis_controls_v8: ["1.1"]
 #   iso_27001_2022: ["A.5.9", "A.5.10"]
-package security.outscale.vm_007
+package finops.outscale.vm_007
 
 import rego.v1
 import data.lib.modules
